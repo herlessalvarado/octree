@@ -86,14 +86,12 @@ public:
 		insert(xi, xf, yi, yf, zi, zf, img, root);
 	}
 
-    void getCut(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3){
+    void getCut(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, string outputName){
+		outputImg.resize(512,512);
 		equation_plane(x1,y1,z1,x2,y2,z2,x3,y3,z3);
-		
-        outputImg.resize(512,512);
-
         getCut(root);
-
-        outputImg.display();
+		string outName = "octreeOutput/" + outputName + ".jpg";
+		outputImg.save(outName.c_str());
     }
 };
 

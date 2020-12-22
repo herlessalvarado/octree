@@ -23,7 +23,7 @@ void Binarizar(CImg<float> & img, int umbral, int z_plane, unsigned char cube[][
     }
 };
 
-void getCutFromCube(int xi, int xf, int yi, int yf, int z, unsigned char img[][512][512]){
+void getCutFromCube(int xi, int xf, int yi, int yf, int z, unsigned char img[][512][512], string outputName){
     CImg<unsigned char> outputImg;
     outputImg.resize(xf-xi,yf-yi);
     for(int i = xi; i < xf; i++){
@@ -31,7 +31,8 @@ void getCutFromCube(int xi, int xf, int yi, int yf, int z, unsigned char img[][5
             outputImg(i-xi,j-yi) = img[z][i][j];
         }
     }
-    outputImg.display();
+    string outName = "cubeOutput/" + outputName + ".jpg";
+	outputImg.save(outName.c_str());
 }
 
 int main() {
@@ -41,13 +42,17 @@ int main() {
         string tomography = path + to_string(i) + ".BMP";
         CImg<float> R(tomography.c_str());
         Binarizar(R,128,i,cube);
-        R.display();
+        // R.display();
     }
     for(int z = 0; z < 40; z++) {
-        getCutFromCube(200,400,200,400,z,cube);
+        string outputImage = to_string(z);
+        getCutFromCube(200,400,200,400,z,cube, outputImage);
     }
 	Octree octree;
     octree.insert(0, 511, 0, 511, 0, 39, cube);
-	octree.getCut(0,0,0,1234,43523,0,2342,43223,0);
+    for(int z = 0; z < 40; z++) {
+        string outputImage = to_string(z);
+        octree.getCut(0,0,z,1234,43523,z,2342,43223,z,outputImage);
+    }
     return 0;
 }
