@@ -54,15 +54,7 @@ private:
 				for (int j = node->yi; j <= node->yf; j++) {
 					for(int k = node->zi; k <= node->zf; k++) {
 						if(a*i + b*j + c*k + d == 0) {
-							if(a != 0) {
-								outputImg(j,k) = node->color;
-							}
-							else if(b != 0) {
-								outputImg(i,k) = node->color;
-							}
-							else {
-								outputImg(i,j) = node->color;
-							}
+							outputImg(i,j) = node->color;
 						}
 					}
 				}

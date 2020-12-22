@@ -48,6 +48,6 @@ int main() {
     }
 	Octree octree;
     octree.insert(0, 511, 0, 511, 0, 39, cube);
-	octree.getCut(0,0,20,1234,43523,20,2342,43223,20);
+	octree.getCut(0,0,0,1234,43523,0,2342,43223,0);
     return 0;
 }
