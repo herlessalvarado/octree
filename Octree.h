@@ -50,9 +50,9 @@ private:
 	void getCut(Node* & node) {
 		if(!node) return;
 		if(node->leaf) {
-			for(int k = node->zi; k <= node->zf; ++k) {
-				for (int i = node->xi; i <= node->xf; ++i) {
-					for (int j = node->yi; j <= node->yf; ++j) {
+			for (int i = node->xi; i <= node->xf; i++) {
+				for (int j = node->yi; j <= node->yf; j++) {
+					for(int k = node->zi; k <= node->zf; k++) {
 						if(a*i + b*j + c*k + d == 0) {
 							if(a != 0) {
 								outputImg(j,k) = node->color;
