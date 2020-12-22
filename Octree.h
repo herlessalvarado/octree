@@ -13,10 +13,10 @@ using namespace std;
 class Octree {
 private:
     Node* root;
-	CImg<char> outputImg;
+	CImg<unsigned char> outputImg;
     int a,b,c,d;
 
-    bool uniqueColor(int xi, int xf, int yi, int yf, int zi, int zf, char img[][512][512]) {
+    bool uniqueColor(int xi, int xf, int yi, int yf, int zi, int zf, unsigned char img[][512][512]) {
 		unsigned char pixel = img[zi][xi][yi];
 		for(int k = zi; k <= zf; ++k){
 			for (int i = xi; i <= xf; ++i) {
@@ -30,24 +30,20 @@ private:
 		return true;
 	}
 
-    void insert(int xi, int xf, int yi, int yf, int zi, int zf, char img[][512][512], Node* &n) {
+    void insert(int xi, int xf, int yi, int yf, int zi, int zf, unsigned char img[][512][512], Node* &n) {
         n = new Node(xi, xf, yi, yf, zi, zf);
 		if (uniqueColor(xi, xf, yi, yf, zi, zf, img) || (xi == xf && yi == yf && zi == zf)) {
 			n->color = img[zi][xi][yi];
             n->leaf = true;
 		} else {
-			int ymid = (yf+yi)/2;
-			if(ymid > yf) ymid--;
-			insert(xi, (xf+xi)/2, yi, ymid, zi, (zf+zi)/2, img, n->children[0]);
-			insert((xf+xi)/2+1, xf, yi, ymid, zi, (zf+zi)/2, img, n->children[1]);
-			insert(xi, (xf+xi)/2, ymid+1, yf, zi, (zf+zi)/2, img, n->children[2]);
-			insert((xf+xi)/2+1, xf, ymid+1, yf, zi, (zf+zi)/2, img, n->children[3]);
-            int zmid = (zf+zi)/2+1;
-			if(zmid > zf) zmid--;
-			insert(xi, (xf+xi)/2, yi, ymid, zmid, zf, img, n->children[4]);
-			insert((xf+xi)/2+1, xf, yi, ymid, zmid, zf, img, n->children[5]);
-			insert(xi, (xf+xi)/2, ymid+1, yf, zmid, zf, img, n->children[6]);
-			insert((xf+xi)/2+1, xf, ymid+1, yf, zmid, zf, img, n->children[7]);
+			insert(xi, (xf+xi)/2, yi, (yf+yi)/2, zi, (zf+zi)/2, img, n->children[0]);
+			insert((xf+xi)/2+1, xf, yi, (yf+yi)/2, zi, (zf+zi)/2, img, n->children[1]);
+			insert(xi, (xf+xi)/2, (yf+yi)/2+1, yf, zi, (zf+zi)/2, img, n->children[2]);
+			insert((xf+xi)/2+1, xf, (yf+yi)/2+1, yf, zi, (zf+zi)/2, img, n->children[3]);
+			insert(xi, (xf+xi)/2, yi, (yf+yi)/2, (zf+zi)/2+1, zf, img, n->children[4]);
+			insert((xf+xi)/2+1, xf, yi, (yf+yi)/2, (zf+zi)/2+1, zf, img, n->children[5]);
+			insert(xi, (xf+xi)/2, (yf+yi)/2+1, yf, (zf+zi)/2+1, zf, img, n->children[6]);
+			insert((xf+xi)/2+1, xf, (yf+yi)/2+1, yf, (zf+zi)/2+1, zf, img, n->children[7]);
 		}    
 	}
 
@@ -90,7 +86,7 @@ private:
 public:
     Octree(){};
 
-	void insert(int xi, int xf, int yi, int yf, int zi, int zf, char img[][512][512]){
+	void insert(int xi, int xf, int yi, int yf, int zi, int zf, unsigned char img[][512][512]){
 		insert(xi, xf, yi, yf, zi, zf, img, root);
 	}
 
