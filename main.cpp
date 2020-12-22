@@ -42,7 +42,6 @@ int main() {
         string tomography = path + to_string(i) + ".BMP";
         CImg<float> R(tomography.c_str());
         Binarizar(R,128,i,cube);
-        // R.display();
     }
     for(int z = 0; z < 40; z++) {
         string outputImage = to_string(z);
@@ -52,7 +51,9 @@ int main() {
     octree.insert(0, 511, 0, 511, 0, 39, cube);
     for(int z = 0; z < 40; z++) {
         string outputImage = to_string(z);
-        octree.getCut(0,0,z,1234,43523,z,2342,43223,z,outputImage);
+        octree.getCut(0,0,z,1,0,z,0,1,z,outputImage); // z
+        // octree.getCut(0,z,0,1,z,0,1,z,1,outputImage); // y
+        // octree.getCut(z,0,0,z,1,0,z,1,1,outputImage); // x
     }
     return 0;
 }
