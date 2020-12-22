@@ -18,7 +18,7 @@ private:
 
     bool uniqueColor(int xi, int xf, int yi, int yf, int zi, int zf, unsigned char img[][512][512]) {
 		unsigned char pixel = img[zi][xi][yi];
-		for(int k = zi; k <= zf; ++k){
+		for(int k = zi; k <= zf; ++k) {
 			for (int i = xi; i <= xf; ++i) {
 				for (int j = yi; j <= yf; ++j) {
 					if (pixel != img[k][i][j]) {
@@ -32,7 +32,7 @@ private:
 
     void insert(int xi, int xf, int yi, int yf, int zi, int zf, unsigned char img[][512][512], Node* &n) {
         n = new Node(xi, xf, yi, yf, zi, zf);
-		if (uniqueColor(xi, xf, yi, yf, zi, zf, img) || (xi == xf && yi == yf && zi == zf)) {
+		if (uniqueColor(xi, xf, yi, yf, zi, zf, img)) {
 			n->color = img[zi][xi][yi];
             n->leaf = true;
 		} else {
@@ -45,13 +45,6 @@ private:
 			insert(xi, (xf+xi)/2, (yf+yi)/2+1, yf, (zf+zi)/2+1, zf, img, n->children[6]);
 			insert((xf+xi)/2+1, xf, (yf+yi)/2+1, yf, (zf+zi)/2+1, zf, img, n->children[7]);
 		}    
-	}
-
-    bool intersects(Node* & node) { 
-		return ((a*node->xi + b*node->yi + c*node->zi + d > 0) && (a*node->xf + b*node->yf + c*node->zf + d < 0)) ||
-				((a*node->xi + b*node->yi + c*node->zi + d < 0) && (a*node->xf + b*node->yf + c*node->zf + d > 0)) ||
-				(a*node->xi + b*node->yi + c*node->zi + d == 0) ||
-				(a*node->xf + b*node->yf + c*node->zf + d == 0);
 	}
 
 	void getCut(Node* & node) {
@@ -77,9 +70,7 @@ private:
 			return;
 		}
 		for(int i = 0; i < 8; i++) {
-			if(intersects(node->children[i])) {
-				getCut(node->children[i]);
-			}
+			getCut(node->children[i]);
 		}
 	}
 
