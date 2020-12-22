@@ -25,10 +25,12 @@ void Binarizar(CImg<float> & img, int umbral, int z_plane, char cube[][512][512]
 
 void getCutFromCube(int xi, int xf, int yi, int yf, int z, char img[][512][512]){
     CImg<unsigned char> outputImg;
-    outputImg.resize(512,512);
+    outputImg.resize(xf-xi,yf-yi);
+    int x = xi;
+    int y = yi;
     for(int i = xi; i < xf; i++){
         for(int j = yi; j < yf; j++){
-            outputImg(i,j) = img[z][i][j];
+            outputImg(i-xi,j-yi) = img[z][i][j];
         }
     }
     outputImg.display();
@@ -44,7 +46,7 @@ int main() {
         R.display();
     }
     for(int z = 0; z < 40; z++) {
-        getCutFromCube(0,512,0,512,z,cube);
+        getCutFromCube(200,400,200,400,z,cube);
     }
 	Octree octree;
     octree.insert(0, 511, 0, 511, 0, 39, cube);
