@@ -1,5 +1,6 @@
 #ifndef OCTREE_H
 #define OCTREE_H
+
 #define cimg_display  1
 #define cimg_use_png  1
 #define cimg_use_jpeg 1
@@ -8,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "CImg.h"
+#include "Node.h"
 
 using namespace cimg_library;
 using namespace std;
@@ -24,20 +26,6 @@ void Binarizar(CImg<float> & img, int umbral, int z_plane, char cube[][512][512]
                 cube[z_plane][i][j] = (char) 255;
         }
     }
-};
-
-struct Node {
-    int xi, xf;
-    int yi, yf;
-    int zi, zf;
-    unsigned char color;
-    bool leaf;
-    Node* children[8] = {};
-
-    Node(){};
-
-	Node(int xi, int xf, int yi, int yf, int zi, int zf) :
-        leaf{false}, xi{xi}, xf{xf}, yi{yi}, yf{yf}, zi{zi}, zf{zf} {}
 };
 
 class Octree {
